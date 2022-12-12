@@ -16,12 +16,12 @@ end
 rule "Init"
 	when
 	then
-		insert(new Message("Szmata", 1, statusType.HELLO));
+		insert(new Message("Hello world", 1, statusType.HELLO));
 end;
  
 rule "Hello World"
     when
-        m : Message( status == Message.statType.HELLO, myMessage : message )
+        m : Message( statType == statusType.HELLO, myMessage : message )
     then
         System.out.println( myMessage );
         m.setMessage( "Goodbye cruel world" );
@@ -31,7 +31,7 @@ end
 
 rule "GoodBye"
     when
-        Message( status == Message.GOODBYE, myMessage : message )
+        Message( statType == statusType.GOODBYE, myMessage : message )
     then
         System.out.println( myMessage );
 end
