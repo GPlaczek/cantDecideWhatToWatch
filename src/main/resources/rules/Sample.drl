@@ -25,13 +25,44 @@ rule "Init"
 		a.add("TV Show");
 		GuiPopup p1 = new GuiPopup("Movie or TV Show?", a);
 		String ans = p1.ask();
-		System.out.println("Before insert " + ans);
 		insert(new Result(ans));
 end;
 
 rule "Movie"
 	when
-		exists Result(result == "Movie");
+		exists Result(result == "Movie")
 	then
-		System.out.println("Movie");
+		ArrayList<String> a = new ArrayList();
+		a.add("Documentaries");
+		GuiPopup p1 = new GuiPopup("What genre?", a);
+		String ans = p1.ask();
+		insert(new Result(ans));
+end;
+
+rule "Documentaries"
+	when
+		exists Result(result == "Documentaries")
+	then
+		ArrayList<String> a = new ArrayList();
+		a.add("An inside look into the amateur porn industry");
+		a.add("Noam Chromsy looks at wealth inequality in America");
+		a.add("A story of drug dealers in 1980's Florida");
+		a.add("A study of German Expressionist cinema and fascism");
+		GuiPopup p1 = new GuiPopup("What topic?", a);
+		String ans = p1.ask();
+		insert(new Result(ans));
+end;
+
+rule "Porn"
+	when
+		exists Result(result == "An inside look into the amateur porn industry");
+	then
+		System.out.println("You should watch Hot Girls Wanted");
+end
+
+rule "TV Show"
+	when
+		exists Result(result == "TV Show")
+	then
+		System.out.println("Unimplemented");
 end

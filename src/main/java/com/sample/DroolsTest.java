@@ -18,23 +18,12 @@ public class DroolsTest {
     	KieContainer kContainer = ks.getKieClasspathContainer();
     	KieSession kSession = kContainer.newKieSession("ksession-rules");
     	JFrame f = new JFrame();
-    	JButton b = new JButton("fire");
-    	b.setBounds(130,100,100,40);
-    	b.addActionListener(new ActionListener() {
-    		@Override
-    		public void actionPerformed(ActionEvent e) {
-    			try {
-    	            // go !
-    	            kSession.fireAllRules();
-    	        } catch (Throwable t) {
-    	            t.printStackTrace();
-    	        }
-    		}
-    	});
-    	f.add(b);
-    	f.setSize(400,500);
+    	try {
+    		// go !
+    	    kSession.fireAllRules();
+    	} catch (Throwable t) {
+    	    t.printStackTrace();
+    	}
     	f.setLayout(null);
-    	f.setVisible(true);
-        
     }
 }
