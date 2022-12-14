@@ -1,37 +1,345 @@
-package com.sample
+package com.sample;
  
-// import com.sample.DroolsTest.Message;
+import com.sample.DroolsTest.*;
+import org.kie.api.runtime.KieRuntime
+import java.util.ArrayList
+import java.util.List
+import java.util.Arrays;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+import com.sample.Gui.*;
 
-declare enum statusType
-HELLO(0),GOODBYE(1);
-	type_: int
-end
+global JFrame frame
+global javax.swing.JTextArea textArea
 
-declare Message
-	message: String
-	status: int
-	statType: statusType
-end
 
-rule "Init"
+rule "Which type of book are you looking for?"
 	when
 	then
-		insert(new Message("Hello world", 1, statusType.HELLO));
-end;
- 
-rule "Hello World"
-    when
-        m : Message( statType == statusType.HELLO, myMessage : message )
-    then
-        System.out.println( myMessage );
-        m.setMessage( "Goodbye cruel world" );
-        m.setStatType( statusType.GOODBYE );
-        update( m );
+		ArrayList<String> odp = new ArrayList<String>();
+		odp.add("Fantasy");
+		odp.add("Sci-Fi"); 
+		odp.add("A little bit of both");
+		insert(new Pytanie("","").zapytaj(frame, kcontext.getKieRuntime(),"Which type of book are you looking for?", odp ));
 end
 
-rule "GoodBye"
-    when
-        Message( statType == statusType.GOODBYE, myMessage : message )
-    then
-        System.out.println( myMessage );
+
+rule "Up for a fairy tale?"
+	when
+		Pytanie(trescPytania == "Which type of book are you looking for?", odpowiedz == "Fantasy")
+	then
+		ArrayList<String> odp = new ArrayList<String>();
+		odp.add("Yes, why mess with a classic formula");
+		odp.add("No, something more gritty");
+		insert(new Pytanie("","").zapytaj( frame, kcontext.getKieRuntime(),"Up for a fairy tale?", odp ));
 end
+
+/*
+rule "Fairy Tale Fork : Yes"
+	when
+		Pytanie(trescPytania == "Up for a fairy tale?", odpowiedz == "Yes, why mess with a classic formula")
+	then
+		ArrayList<String> odp = new ArrayList<String>();
+		odp.add("A gritty, existential fable");
+		odp.add("Reverse Rumpelstiltskin");
+		odp.add("Goblin Politics");
+		odp.add("A short story");
+		Pytanie p = zapytaj(frame, kcontext.getKieRuntime(), "Wybierz:", odp );
+		insert(p);
+end
+
+rule "Short Story Fork"
+	when
+		Pytanie(odpowiedz == "A short story")
+	then
+		ArrayList<String> odp = new ArrayList<String>();
+		odp.add("Based in Asian folklore");
+		odp.add("Provocative yet surreal");
+		Pytanie p = zapytaj(frame, kcontext.getKieRuntime(), "Wybierz:", odp );
+		insert(p);
+end
+	
+rule "Recommend: The Paper Menagere And Other Stories"
+	when
+		Pytanie(odpowiedz == "Based in Asian folklore")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"The Paper Menagere And Other Stories by Ken Liu" );
+end
+
+rule "Recommend: Her body and other parties"
+	when
+		Pytanie(odpowiedz == "Provocative yet surreal")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"Her body and other parties by Carmen Maria Machado" );
+end
+
+rule "Recommend: The Goblin Emperor"
+	when
+		Pytanie(odpowiedz == "Goblin Politics")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"The Goblin Emperor (The Goblin Emperor, #1) by Katherine Addison" );
+end
+
+rule "Recommend: Spinning Silver"
+	when
+		Pytanie(odpowiedz == "Reverse Rumpelstiltskin")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"Spinning Silver by Naomi Novik" );
+end
+
+rule "Recommend: The buried Giant"
+	when
+		Pytanie(odpowiedz == "A gritty, existential fable")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"The Buried Giant by Kazuo Ishiguro" );
+end
+
+rule "Fairy Tale Fork : No"
+	when
+		Pytanie(trescPytania == "Up for a fairy tale?", odpowiedz == "No, something more gritty")
+	then
+		ArrayList<String> odp = new ArrayList<String>();
+        odp.add("Yes, bring on the new world");
+        odp.add("No, not that gritty");
+        Pytanie p = zapytaj( frame, kcontext.getKieRuntime(),"Society on the brink of change?", odp );
+        insert(p);
+end
+
+rule "Fairy Tale Fork : New World Fork"
+	when
+		Pytanie(trescPytania == "Society on the brink of change?", odpowiedz == "Yes, bring on the new world")
+	then
+		ArrayList<String> odp = new ArrayList<String>();
+        odp.add("Once in an age events");
+        odp.add("Magical Revolution");
+        Pytanie p = zapytaj( frame, kcontext.getKieRuntime(),"What's changing the land?", odp );
+        insert(p);
+end
+
+rule "New World Fork : Age events"
+	when
+		Pytanie(trescPytania == "What's changing the land?", odpowiedz == "Once in an age events")
+	then
+		ArrayList<String> odp = new ArrayList<String>();
+        odp.add("Celestial events in unbalanced world");
+        odp.add("Geological & caste upheaval");
+        Pytanie p = zapytaj( frame, kcontext.getKieRuntime(),"Once in an age events", odp );
+        insert(p);
+end
+
+rule "Recommend: Black Sun"
+	when
+		Pytanie(odpowiedz == "Celestial events in unbalanced world")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"Black Sun (Between Earth and Sky, #1) by Rebecca Roanhorse" );
+end
+
+rule "Recommend: The Fifth Season"
+	when
+		Pytanie(odpowiedz == "Geological & caste upheaval")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"The Fifth Season (the Broken Earth, #1) by N.K. Jemisin" );
+end
+
+rule "New World Fork : Magical Revolution"
+	when
+		Pytanie(trescPytania == "What's changing the land?", odpowiedz == "Magical Revolution")
+	then
+		ArrayList<String> odp = new ArrayList<String>();
+        odp.add("A monopoly over magical jade");
+        odp.add("New magic and ghostly intrigue");
+        odp.add("Magic giving way to machines");
+        Pytanie p = zapytaj( frame, kcontext.getKieRuntime(),"Magical Revolution", odp );
+        insert(p);
+end
+
+rule "Recommend: Jade City"
+	when
+		Pytanie(odpowiedz == "A monopoly over magical jade")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"Jade City (The Green Bone Saga, #1) by Fonda Lee" );
+end
+rule "Recommend: A Stranger in Olondria"
+	when
+		Pytanie(odpowiedz == "New magic and ghostly intrigue")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"A Stranger in Olondria (Olondria) by Sofia Samatar" );
+end
+rule "Recommend: A Little Hatred"
+	when
+		Pytanie(odpowiedz == "Magic giving way to machines")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"A Little Hatred (The Age of Madness, #1) by Joe Abecrombie" );
+end
+
+rule "Fairy Tale Fork : No New World Fork"
+	when
+		Pytanie(trescPytania == "Society on the brink of change?", odpowiedz == "No, not that gritty")
+	then
+		ArrayList<String> odp = new ArrayList<String>();
+        odp.add("The Gods");
+        odp.add("The People");
+        Pytanie p = zapytaj( frame, kcontext.getKieRuntime(),"Who's running the show?", odp );
+        insert(p);
+end
+
+rule "No New World Fork : The Gods running show"
+	when
+		Pytanie(trescPytania == "Who's running the show?", odpowiedz == "The Gods")
+	then
+		ArrayList<String> odp = new ArrayList<String>();
+        odp.add("Gods cohabiting hosts");
+        odp.add("Overthrowing gods");
+        odp.add("Gods among us");
+        Pytanie p = zapytaj( frame, kcontext.getKieRuntime(),"How are the gods involved?", odp );
+        insert(p);
+end
+
+rule "Recommend: The Poppy War"
+	when
+		Pytanie(odpowiedz == "Gods cohabiting hosts")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"The Poppy War (The Poppy War, #1) by R.F. Kuang" );
+end
+
+rule "Recommend: City of Stairs"
+	when
+		Pytanie(odpowiedz == "Overthrowing gods")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"City of Stairs (The Divine City, #1) by Robert Jackson Benett" );
+end
+
+rule "The gods running show: Gods among us"
+	when
+		Pytanie(trescPytania == "How are the gods involved?", odpowiedz == "Gods among us")
+	then
+		ArrayList<String> odp = new ArrayList<String>();
+        odp.add("The Odyssey from a goddess' point of view");
+        odp.add("Creating an utopia");
+        odp.add("With shapeshifters");
+        Pytanie p = zapytaj( frame, kcontext.getKieRuntime(),"Gods among us", odp );
+        insert(p);
+end
+
+rule "Recommend: Circe"
+	when
+		Pytanie(odpowiedz == "The Odyssey from a goddess' point of view")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"Circe by Madeline Miller" );
+end
+
+rule "Recommend: The Just City"
+	when
+		Pytanie(odpowiedz == "Creating an utopia")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"The Just City (Thessaly, #1) by Jo Walton" );
+end
+
+rule "Recommend: Black Leopard"
+	when
+		Pytanie(odpowiedz == "With shapeshifters")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"Black Leopard, Red Wolf (The Dark Star Trilogy, #1) by Marlon James" );
+end
+
+rule "No New World Fork : The People running show"
+	when
+		Pytanie(trescPytania == "Who's running the show?", odpowiedz == "The People")
+	then
+		ArrayList<String> odp = new ArrayList<String>();
+        odp.add("To a time in the past");
+        odp.add("With magical borders");
+        odp.add("Kids with PTSD from Narnia");
+        Pytanie p = zapytaj( frame, kcontext.getKieRuntime(),"Want to travel somewhere?", odp );
+        insert(p);
+end
+
+rule "Recommend: Every Heart a Doorway"
+	when
+		Pytanie(odpowiedz == "Kids with PTSD from Narnia")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"Every Heart a Doorway (Wayward Choldren, #1) by Seanan McGuire" );
+end
+
+rule "The People running show : Travel somewhere"
+	when
+		Pytanie(trescPytania == "Want to travel somewhere?", odpowiedz == "To a time in the past")
+	then
+		ArrayList<String> odp = new ArrayList<String>();
+        odp.add("Egypt steeped in magic");
+        odp.add("With a magic swindler");
+        odp.add("With a magic mapmaker");
+        Pytanie p = zapytaj( frame, kcontext.getKieRuntime(),"To a time in the past?", odp );
+        insert(p);
+end
+
+rule "Recommend: A Master of Djinn"
+	when
+		Pytanie(odpowiedz == "Egypt steeped in magic")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"A Master of Djinn (Dead Djinn Universe, #1) by P. Djeli Clark" );
+end
+
+rule "Recommend: The City of Brass"
+	when
+		Pytanie(odpowiedz == "With a magic swindler")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"The City of Brass (The Daevabad Trilogy, #1) by S.A.Chakraborty" );
+end
+
+rule "Recommend: The Bird King"
+	when
+		Pytanie(odpowiedz == "With a magic mapmaker")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"The Bird King by G. Willow Wilson" );
+end
+
+rule "Travel somewhere : with magical borders"
+	when
+		Pytanie(trescPytania == "Want to travel somewhere?", odpowiedz == "With magical borders")
+	then
+		ArrayList<String> odp = new ArrayList<String>();
+        odp.add("Perhaps?");
+        odp.add("Yes, bring on a new world");
+        Pytanie p = zapytaj( frame, kcontext.getKieRuntime(),"With magical borders?", odp );
+        insert(p);
+end
+
+rule "Recommend: Piranesi"
+	when
+		Pytanie(odpowiedz == "Perhaps?")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"Piranesi by Susanna Clarke" );
+end
+
+rule "The People running show : Travel somewhere2"
+	when
+		Pytanie(trescPytania == "With magical borders?", odpowiedz == "Yes, bring on a new world")
+	then
+		ArrayList<String> odp = new ArrayList<String>();
+        odp.add("To other Earths");
+        odp.add("Find why magic dried up");
+        odp.add("A magical New York City");
+        Pytanie p = zapytaj( frame, kcontext.getKieRuntime(),"Where to?", odp );
+        insert(p);
+end
+
+rule "Recommend: A Dark Shade of Magic"
+	when
+		Pytanie(odpowiedz == "To other Earths")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"A Dark Shade of Magic (Shades of Magic, #1) by V.E. Schwab" );
+end
+rule "Recommend: Sorcerer to the Crown"
+	when
+		Pytanie(odpowiedz == "Find why magic dried up")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"Sorcerer to the Crown (Sorcerer Royal, #1) by Zen Cho" );
+end
+rule "Recommend: The Changeling"
+	when
+		Pytanie(odpowiedz == "A magical New York City")
+	then
+		recommend( frame, kcontext.getKieRuntime(),"The Changeling by Victor LaValle" );
+end*/
