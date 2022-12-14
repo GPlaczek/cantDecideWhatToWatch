@@ -14,6 +14,9 @@ import org.kie.api.runtime.KieSession;
  */
 public class DroolsTest {
     public static final void main(String[] args) {
+    	KieServices ks = KieServices.Factory.get();
+    	KieContainer kContainer = ks.getKieClasspathContainer();
+    	KieSession kSession = kContainer.newKieSession("ksession-rules");
     	JFrame f = new JFrame();
     	JButton b = new JButton("fire");
     	b.setBounds(130,100,100,40);
@@ -21,11 +24,6 @@ public class DroolsTest {
     		@Override
     		public void actionPerformed(ActionEvent e) {
     			try {
-    	            // load up the knowledge base
-    		        KieServices ks = KieServices.Factory.get();
-    	    	    KieContainer kContainer = ks.getKieClasspathContainer();
-    	        	KieSession kSession = kContainer.newKieSession("ksession-rules");
-
     	            // go !
     	            kSession.fireAllRules();
     	        } catch (Throwable t) {

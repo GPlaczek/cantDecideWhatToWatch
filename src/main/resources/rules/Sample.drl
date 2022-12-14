@@ -1,37 +1,37 @@
 package com.sample
  
 // import com.sample.DroolsTest.Message;
+import java.util.ArrayList;
 
 declare enum statusType
 HELLO(0),GOODBYE(1);
 	type_: int
 end
 
-declare Message
-	message: String
-	status: int
-	statType: statusType
+declare Question
+	question: String
+	answers: ArrayList
+end
+
+declare Result
+	result: String
 end
 
 rule "Init"
 	when
 	then
-		insert(new Message("Hello world", 1, statusType.HELLO));
+		ArrayList<String> a = new ArrayList();
+		a.add("Movie");
+		a.add("TV Show");
+		GuiPopup p1 = new GuiPopup("Movie or TV Show?", a);
+		String ans = p1.ask();
+		System.out.println("Before insert " + ans);
+		insert(new Result(ans));
 end;
- 
-rule "Hello World"
-    when
-        m : Message( statType == statusType.HELLO, myMessage : message )
-    then
-        System.out.println( myMessage );
-        m.setMessage( "Goodbye cruel world" );
-        m.setStatType( statusType.GOODBYE );
-        update( m );
-end
 
-rule "GoodBye"
-    when
-        Message( statType == statusType.GOODBYE, myMessage : message )
-    then
-        System.out.println( myMessage );
+rule "Movie"
+	when
+		exists Result(result == "Movie");
+	then
+		System.out.println("Movie");
 end
