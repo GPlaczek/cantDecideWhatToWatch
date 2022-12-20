@@ -36,6 +36,7 @@ rule "Movie"
 		options.add("Timeless Classics");
 		options.add("Action");
 		options.add("Documentaries");
+		options.add("Comedy");
 		String question = "What genre?"; 
 		GuiPopup p1 = new GuiPopup(question, options);
 		String ans = p1.ask();
@@ -322,10 +323,112 @@ rule "German cinema"
 	then
 		GuiPopup p1 = new GuiPopup("You should watch From Caligari to Hitler", new ArrayList<String>());
 		p1.ask();
-end
+end;
 
 // ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+rule "Comedy"
+	when
+		exists Question(question == "What genre?", result == "Comedy")
+	then
+		ArrayList<String> options = new ArrayList();
+		options.add("Coen Brothers");
+		options.add("Tarantino");
+		options.add("Animated");
+		String question = "What type?";
+		GuiPopup p1 = new GuiPopup(question, options);
+		String ans = p1.ask();
+		insert(new Question(question, options, ans));
+end;
+
+rule "Coen Brothers"
+	when
+		exists Question(question == "What type?", result == "Coen Brothers")
+	then
+		ArrayList<String> options = new ArrayList();
+		options.add("Greatest thing to happen to this earth. Go buy it on Amazon");
+		options.add("The Odyssey set in the depression era south");
+		options.add("Minesotan banker tries to ransom his own wife");
+		String question = "Choose the description";
+		GuiPopup p1 = new GuiPopup(question, options);
+		String ans = p1.ask();
+		insert(new Question(question, options, ans));
+end;
+
+rule "Lebowski"
+	when
+		exists Question(question == "Choose the description", result == "Greatest thing to happen to this earth. Go buy it on Amazon")
+	then
+		GuiPopup p1 = new GuiPopup("You should watch The Big Lebowski", new ArrayList());
+		p1.ask();
+end;
+
+rule "Oh Brother, Where Art Thou"
+	when
+		exists Question(question == "Choose the description", result == "The Odyssey set in the depression era south");
+	then
+		GuiPopup p1 = new GuiPopup("You should watch Oh Brother, Where Art Thou", new ArrayList());
+		p1.ask();
+end;
+
+rule "Fargo"
+	when
+		exists Question(question == "Choose the description", result == "Minesotan banker tries to ransom his own wife")
+	then
+		GuiPopup p1 = new GuiPopup("You should watch Fargo", new ArrayList());
+		p1.ask();
+end;
+
+rule "Tarantino"
+	when
+		exists Question(question == "What type?", result == "Tarantino")
+	then
+		ArrayList<String> options = new ArrayList();
+		options.add("Non-linear story about gangsters");
+		String question = "What story?";
+		GuiPopup p1 = new GuiPopup(question, options);
+		String ans = p1.ask();
+		insert(new Question(question, options, ans));
+end;
+
+rule "Pulp Fiction"
+	when
+		exists Question(question == "What story?", result == "Non-linear story about gangsters")
+	then
+		GuiPopup p1 = new GuiPopup("You should watch Pulp Fiction", new ArrayList());
+		p1.ask();
+end;
+
+rule "Animated"
+	when
+		exists Question(question == "What type?", result == "Animated")
+	then
+		ArrayList<String> options = new ArrayList();
+		options.add("Adorable and underrated");
+		options.add("Semi-funny trash");
+		String question = "Which type?";
+		GuiPopup p1 = new GuiPopup(question, options);
+		String ans = p1.ask();
+		insert(new Question(question, options, ans));
+end;
+
+rule "Home"
+	when
+		exists Question(question == "Which type?", result == "Adorable and underrated")
+	then
+		GuiPopup p1 = new GuiPopup("You should watch Home", new ArrayList());
+		p1.ask();
+end;
+
+rule "South Park"
+	when
+		exists Question(question == "Which type?", result == "Semi-funny trash")
+	then
+		GuiPopup p1 = new GuiPopup("You should watch South Park: Bigger, Longer and Uncut", new ArrayList());
+		p1.ask();
+end;
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------
 rule "TV Show"
 	when
 		exists Question(question == "Movie or TV Show?", result == "TV Show");

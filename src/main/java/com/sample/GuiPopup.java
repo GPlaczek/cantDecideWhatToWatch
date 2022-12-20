@@ -28,7 +28,7 @@ public class GuiPopup {
 	public GuiPopup(String question, ArrayList<String> answers) {
 		this.question = question;
 		this.answers = answers;
-		this.answer = this.answers.get(0);
+		if (!this.answers.isEmpty()) { this.answer = this.answers.get(0); }
 		if (GuiPopup.mainFrame != null) {
 			GuiPopup.mainFrame = new JFrame();
 			GuiPopup.mainFrame.setSize(400,500);
