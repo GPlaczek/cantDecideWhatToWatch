@@ -329,6 +329,7 @@ end;
 
 rule "Comedy"
 	when
+		exists Question(question == "Movie or TV Show?", result == "Movie") and
 		exists Question(question == "What genre?", result == "Comedy")
 	then
 		ArrayList<String> options = new ArrayList();
@@ -435,6 +436,7 @@ rule "TV Show"
 	then
 		ArrayList<String> options = new ArrayList();
 		options.add("Drama");
+		options.add("Comedy");
 		String question = "What genre?"; 
 		GuiPopup p1 = new GuiPopup(question, options);
 		String ans = p1.ask();
@@ -449,7 +451,6 @@ rule "Drama TV Shows"
 		ArrayList<String> options = new ArrayList();
 		options.add("Crime");
 		options.add("Mindfuckey");
-		options.add("Nono of the above");
 		String question = "What type?";
 		GuiPopup p1 = new GuiPopup(question, options);
 		String ans = p1.ask();
@@ -537,5 +538,200 @@ rule "Meth Cooks TV Show"
 		exists Question(question == "What topic?", result == "Meth Cooks");
 	then
 		GuiPopup p1 = new GuiPopup("You should watch Breaking Bad", new ArrayList<String>());
+		p1.ask();
+end;
+
+rule "ComedyTV"
+	when
+		exists Question(question == "Movie or TV Show?", result == "TV Show") and
+		exists Question(question == "What genre?", result == "Comedy")
+	then
+		ArrayList<String> options = new ArrayList();
+		options.add("Animated");
+		options.add("Live Action");
+		String question = "What type?";
+		GuiPopup p1 = new GuiPopup(question, options);
+		String ans = p1.ask();
+		insert(new Question(question, options, ans));
+end;
+
+rule "Live Action"
+	when
+		exists Question(question == "What type?" && result == "Live Action");
+	then
+		ArrayList<String> options = new ArrayList();
+		options.add("Workplace comedy");
+		options.add("Family based comedy");
+		options.add("Friends hanging out");
+		String question = "What topic?";
+		GuiPopup p1 = new GuiPopup(question, options);
+		String ans = p1.ask();
+		insert(new Question(question, options, ans));
+end;
+
+rule "Workplace comedy"
+	when
+		exists Question(question == "What topic?", result == "Workplace comedy")
+	then
+		ArrayList<String> options = new ArrayList();
+		options.add("American");
+		options.add("British");
+		String question = "What country?";
+		GuiPopup p1 = new GuiPopup(question, options);
+		String ans = p1.ask();
+		insert(new Question(question, options, ans));
+end;
+
+rule "American"
+	when
+		exists Question(question == "What country?", result == "American")
+	then
+		ArrayList<String> options = new ArrayList();
+		options.add("One man comedy writing team");
+		options.add("Two best friends work at a hospital");
+		options.add("Pub owners get caught in various antics");
+		options.add("Local government");
+		options.add("Relatable story of dysfunctional workplaces");
+		String question = "What story?";
+		GuiPopup p1 = new GuiPopup(question, options);
+		String ans = p1.ask();
+		insert(new Question(question, options, ans));
+end;
+
+rule "30 Rock"
+	when
+		exists Question(question == "What story?", result == "One man comedy writing team")
+	then
+		GuiPopup p1 = new GuiPopup("You should watch 30 Rock", new ArrayList());
+		p1.ask();
+end;
+
+rule "Scrubs"
+	when
+		exists Question(question == "What story?", result == "Two best friends work at a hospital")
+	then
+		GuiPopup p1 = new GuiPopup("You should watch Scrubs", new ArrayList());
+		p1.ask();
+end;
+
+rule "Sunny Philadelphia"
+	when
+		exists Question(question == "What story?", result == "Pub owners get caught in various antics")
+	then
+		GuiPopup p1 = new GuiPopup("You should watch It's Always Sunny in Philadelphia", new ArrayList());
+		p1.ask();
+end;
+
+rule "Parks and Rec"
+	when
+		exists Question(question == "What story?", result == "Local government")
+	then
+		GuiPopup p1 = new GuiPopup("You should watch Parks and Rec", new ArrayList());
+		p1.ask();
+end;
+
+rule "Office US"
+	when
+		exists Question(question == "What story?", result == "Relatable story of dysfunctional workplaces")
+		exists Question(question == "What country?", result == "American")
+	then
+		GuiPopup p1 = new GuiPopup("You should watch The Office (US)", new ArrayList());
+		p1.ask();
+end;
+
+rule "BritishTV"
+	when
+		exists Question(question == "What country?", result == "British")
+	then
+		ArrayList<String> options = new ArrayList();
+		options.add("Relatable story of dysfunctional workplaces");
+		options.add("Socially awkward IT specialists");
+		String question = "What story?";
+		GuiPopup p1 = new GuiPopup(question, options);
+		String ans = p1.ask();
+		insert(new Question(question, options, ans));
+end;
+
+rule "Office UK"
+	when
+		exists Question(question == "What country?", result == "British") and
+		exists Question(question == "What story?", result == "Relatable story of dysfunctional workplaces")
+	then
+		GuiPopup p1 = new GuiPopup("You should watch The Office (UK)", new ArrayList());
+		p1.ask();
+end;
+
+rule "IT Crowd"
+	when
+		exists Question(question == "What story?", result == "Socially awkward IT specialists")
+	then
+		GuiPopup p1 = new GuiPopup("You should watch The IT Crowd", new ArrayList());
+		p1.ask();
+end;
+
+rule "Family based comedy"
+	when
+		exists Question(question == "What topic?", result == "Family based comedy")
+	then
+		ArrayList<String> options = new ArrayList();
+		options.add("A suburban middle child growing up");
+		options.add("A rich family deals with their wealth falling apart");
+		String question = "What story?";
+		GuiPopup p1 = new GuiPopup(question, options);		
+		String ans = p1.ask();
+		insert(new Question(question, options, ans));
+end;
+
+rule "Malcolm"
+	when
+		exists Question(question == "What story?", result == "A suburban middle child growing up")
+	then
+		GuiPopup p1 = new GuiPopup("You should watch Malcolm in the Middle", new ArrayList());
+		p1.ask();
+end;
+
+rule "Arrested Development"
+	when
+		exists Question(question == "What story?", result == "A rich family deals with their wealth falling apart")
+	then
+		GuiPopup p1 = new GuiPopup("You should watch Arrested Developmend", new ArrayList());
+		p1.ask();
+end;
+
+rule "Friends hanging out"
+	when
+		exists Question(question == "What topic?", result == "Friends hanging out")
+	then
+		ArrayList<String> options = new ArrayList();
+		options.add("70's stoners");
+		options.add("A man tells his children about his various youthful exploits");
+		options.add("An ex-cult member goes to New York and tries to make it");
+		String question = "What story?";
+		GuiPopup p1 = new GuiPopup(question, options);
+		String ans = p1.ask();
+		insert(new Question(question, options, ans));
+end;
+
+rule "70's Show"
+	when
+		exists Question(question == "What story?", result == "70's stoners")
+	then
+		GuiPopup p1 = new GuiPopup("You should watch That 70's Show", new ArrayList());
+		p1.ask();
+end;
+
+rule "How I Met Your Mother"
+	when
+		exists Question(question == "What story?", result == "A man tells his children about his various youthful exploits")
+	then
+		GuiPopup p1 = new GuiPopup("You should watch How I met Your Mother", new ArrayList());
+		p1.ask();
+end;
+
+rule "Unbreakable Kimmy"
+	when
+		exists Question(question == "What story?", result == "An ex-cult member goes to New York and tries to make it")
+	then
+		GuiPopup p1 = new GuiPopup("You should watch Unbreakable Kimmy Schmidt", new ArrayList());
 		p1.ask();
 end;
