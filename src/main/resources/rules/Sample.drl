@@ -53,7 +53,7 @@ rule "Timeless Classics"
 	then
 		ArrayList<String> options = new ArrayList();
 		options.add("Scientists create a cannon to send them to the moon");
-		options.add("A lawyer defends an innocent blac man in 1930's south");
+		options.add("A lawyer defends an innocent black man in 1930's south");
 		options.add("A German expressionist film where an upper class man leads the lower class in revolt");
 		String question = "Which topic?";
 		GuiPopup p1 = new GuiPopup(question, options);
@@ -72,7 +72,7 @@ end;
 
 rule "Lawyer"
 	when
-		exists Question(question == "Which topic?", result == "A lawyer defends an innocent blac man in 1930's south");
+		exists Question(question == "Which topic?", result == "A lawyer defends an innocent black man in 1930's south");
 	then
 		GuiPopup p1 = new GuiPopup("You should watch To Kill a Mockingbird", new ArrayList<String>());
 		p1.ask();
@@ -82,7 +82,7 @@ rule "Metropolis"
 	when
 		exists Question(question == "Which topic?", result == "A German expressionist film where an upper class man leads the lower class in revolt");
 	then
-		GuiPopup p1 = new GuiPopup("You should watch Matropolis", new ArrayList<String>());
+		GuiPopup p1 = new GuiPopup("You should watch Metropolis", new ArrayList<String>());
 		p1.ask();
 end;
 
@@ -736,7 +736,6 @@ rule "ComedyTV"
 		exists Question(question == "What genre?", result == "Comedy")
 	then
 		ArrayList<String> options = new ArrayList();
-		options.add("Animated");
 		options.add("Live Action");
 		String question = "What type?";
 		GuiPopup p1 = new GuiPopup(question, options);
