@@ -90,7 +90,6 @@ end;
 
 rule "Action Movie"
 	when
-		exists Question(question == "Movie or TV Show?", result == "Movie");	
 		exists Question(question == "What genre?", result == "Action")
 	then
 		ArrayList<String> options = new ArrayList();
@@ -105,7 +104,6 @@ end;
 
 rule "Martial arts"
 	when
-		exists Question(question == "Movie or TV Show?", result == "Movie");	
 		exists Question(question == "What type?", result == "Martial arts")
 	then
 		ArrayList<String> options = new ArrayList();
@@ -218,7 +216,6 @@ end;
 
 rule "Goofy Movie"
 	when
-		exists Question(question == "Movie or TV Show?", result == "Movie");	
 		exists Question(question == "What type?", result == "Goofy")
 	then
 		ArrayList<String> options = new ArrayList();
@@ -232,7 +229,6 @@ end;
 
 rule "Hot fuzz"
 	when
-		exists Question(question == "Movie or TV Show?", result == "Movie");	
  		exists Question(question == "What subtype?", result == "British");	 	
 	then
 		GuiPopup p1 = new GuiPopup("You should watch Hot Fuzz", new ArrayList<String>());
@@ -241,7 +237,6 @@ end;
 
 rule "Not British Movie"
 	when
-		exists Question(question == "Movie or TV Show?", result == "Movie");	
 		exists Question(question == "What subtype?", result == "British");	 	
 	then
 		ArrayList<String> options = new ArrayList();
@@ -331,6 +326,7 @@ end;
 
 rule "Comedy"
 	when
+		exists Question(question == "Movie or TV Show?", result == "Movie")
 		exists Question(question == "What genre?", result == "Comedy")
 	then
 		ArrayList<String> options = new ArrayList();
@@ -654,7 +650,6 @@ end;
 
 rule "Crime TV Shows"
 	when
-		exists Question(question == "Movie or TV Show?", result == "TV Show");	
 		exists Question(question == "What type?", result == "Crime")
 	then
 		ArrayList<String> options = new ArrayList();
@@ -669,7 +664,6 @@ end;
 
 rule "Good Guys"
 	when
-		exists Question(question == "Movie or TV Show?", result == "TV Show");	
 		exists Question(question == "What subtype?", result == "Good Guys")
 	then
 		ArrayList<String> options = new ArrayList();
@@ -699,7 +693,6 @@ end;
 
 rule "Bad Guys"
 	when
-		exists Question(question == "Movie or TV Show?", result == "TV Show");	
 		exists Question(question == "What subtype?", result == "Bad Guys")
 	then
 		ArrayList<String> options = new ArrayList();
