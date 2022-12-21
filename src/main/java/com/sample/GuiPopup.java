@@ -42,6 +42,7 @@ public class GuiPopup {
 		p.add(new JLabel(this.question));
 		
 		ButtonGroup g = new ButtonGroup();
+		boolean sel = false;
 		for(String i : answers) {
 			JRadioButton rb = new JRadioButton(i);
 			rb.addItemListener(new ItemListener() {
@@ -52,6 +53,10 @@ public class GuiPopup {
 					}
 				}
 			});
+			if (!sel) {
+				rb.setSelected(true);
+				sel = true;
+			}
 			g.add(rb);
 			p.add(rb);
 		}
